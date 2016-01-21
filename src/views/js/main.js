@@ -539,7 +539,7 @@ function updatePositions() {
     var halfScreenWidth = ((window.innerWidth > 0) ? window.innerWidth : screen.width) / 2;
 
     for (var i = 0; i < 5; i++) {
-        phaseArray.push(Math.sin(scrollTop / 1250) + i);
+        phaseArray.push(Math.sin((scrollTop / 1250) + i));
     }
     var phase;
     var d;
@@ -547,7 +547,7 @@ function updatePositions() {
         phase = phaseArray[i % 5];
         items[i].basicLeft + 100 * phase + 'px';
         //console.log(d + "d");
-        items[i].style.transform = 'translateX(' + (items[i].basicLeft + 100 * phase - halfScreenWidth) + 'px)';
+        items[i].style.transform = 'translateX(' + (items[i].basicLeft + 100 * phase - (halfScreenWidth - 256)) + 'px)';
     }
 
     // User Timing API to the rescue again. Seriously, it's worth learning.
