@@ -427,13 +427,13 @@ var resizePizzas = function(size) {
     function changeSliderLabel(size) {
         switch (size) {
             case "1":
-                document.querySelector("#pizzaSize").innerHTML = "Small";
+                document.getElementById("pizzaSize").innerHTML = "Small";
                 return;
             case "2":
-                document.querySelector("#pizzaSize").innerHTML = "Medium";
+                document.getElementById("pizzaSize").innerHTML = "Medium";
                 return;
             case "3":
-                document.querySelector("#pizzaSize").innerHTML = "Large";
+                document.getElementById("pizzaSize").innerHTML = "Large";
                 return;
             default:
                 console.log("bug in changeSliderLabel");
@@ -445,7 +445,7 @@ var resizePizzas = function(size) {
     // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
     function determineDx(elem, size) {
         var oldWidth = elem.offsetWidth;
-        var windowWidth = document.querySelector("#randomPizzas").offsetWidth;
+        var windowWidth = document.getElementById("randomPizzas").offsetWidth;
         var oldSize = oldWidth / windowWidth;
 
         // TODO: change to 3 sizes? no more xl?
@@ -527,15 +527,27 @@ function logAverageFrame(times) { // times is the array of User Timing measureme
 // Moves the sliding background pizzas based on scroll position
 var items = document.getElementsByClassName('mover');
 
+
 function updatePositions() {
     frame++;
     window.performance.mark("mark_start_frame");
-    var phase;
-    var scrollTop = (document.body.scrollTop / 1250);
+    var itemsLength = items.length;
+    //var phase;
+    var scrollTop = (document.body.scrollTop);
+    var phaseArray = [];
+    var i;
+    var halfScreenWidth = ((window.innerWidth > 0) ? window.innerWidth : screen.width) / 2;
 
-    for (var i = 0; i < items.length; i++) {
-        phase = Math.sin(scrollTop + (i % 5));
-        items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+    for (var i = 0; i < 5; i++) {
+        phaseArray.push(Math.sin(scrollTop / 1250) + i);
+    }
+    var phase;
+    var d;
+    for (var i = 0; i < itemsLength; i++) {
+        phase = phaseArray[i % 5];
+        items[i].basicLeft + 100 * phase + 'px';
+        //console.log(d + "d");
+        items[i].style.transform = 'translateX(' + (items[i].basicLeft + 100 * phase - halfScreenWidth) + 'px)';
     }
 
     // User Timing API to the rescue again. Seriously, it's worth learning.
